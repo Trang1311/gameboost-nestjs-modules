@@ -19,8 +19,7 @@ export class AccountOffersService {
     const response = await this.http.get<{ data: AccountOfferDto[]; meta: any; links: any }>(
       this.BASE,
       { params: query },
-    );
-
+    ); 
     // Client-side filtering fallback
     if (response?.data && query.filter) {
       let filtered = [...response.data];
