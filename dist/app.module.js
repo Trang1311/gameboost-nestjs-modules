@@ -12,7 +12,6 @@ const config_1 = require("@nestjs/config");
 const core_1 = require("@nestjs/core");
 const gameboost_config_1 = require("./config/gameboost.config");
 const account_offers_module_1 = require("./gameboost/account-offers/account-offers.module");
-const currency_offers_module_1 = require("./gameboost/currency-offers/currency-offers.module");
 const games_module_1 = require("./gameboost/games/games.module");
 const global_exception_filter_1 = require("./common/filters/global-exception.filter");
 let AppModule = class AppModule {
@@ -27,7 +26,6 @@ exports.AppModule = AppModule = __decorate([
                 envFilePath: '.env',
             }),
             account_offers_module_1.AccountOffersModule,
-            currency_offers_module_1.CurrencyOffersModule,
             games_module_1.GamesModule,
         ],
         providers: [

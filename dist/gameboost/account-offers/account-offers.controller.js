@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const account_offers_service_1 = require("./account-offers.service");
 const account_offers_dto_1 = require("./account-offers.dto");
+const platform_express_1 = require("@nestjs/platform-express");
 let AccountOffersController = class AccountOffersController {
     constructor(service) {
         this.service = service;
@@ -33,7 +34,20 @@ let AccountOffersController = class AccountOffersController {
     create(dto) {
         return this.service.create(dto);
     }
-    bulkUpdatePrice(items) {
+    async bulkUpdatePrice(file) {
+        const content = file.buffer.toString('utf-8');
+        const lines = content
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+        const isHeader = lines[0].toLowerCase().includes('external_id');
+        const dataLines = isHeader ? lines.slice(1) : lines;
+        const items = dataLines.map(line => {
+            const parts = line.split(',');
+            const price = parseFloat(parts[parts.length - 1].trim());
+            const external_id = parts[parts.length - 2].trim();
+            return { external_id, price };
+        });
         return this.service.bulkUpdatePrice(items);
     }
     update(id, dto) {
@@ -111,13 +125,27 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     (0, swagger_1.ApiOperation)({
         summary: 'Bulk update prices by external_id',
-        description: 'Update prices for multiple account offers by their external_id. Returns success/failure counts.',
+        description: 'Upload a CSV file with columns: external_id, price. Returns success/failure counts.',
+    }),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            type: 'object',
+            required: ['file'],
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
     }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Bulk update result', schema: { example: { succeeded: 5, failed: 1 } } }),
-    __param(0, (0, common_1.Body)('items')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
 ], AccountOffersController.prototype, "bulkUpdatePrice", null);
 __decorate([
     (0, common_1.Patch)(':id'),

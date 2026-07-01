@@ -9,7 +9,7 @@ async function bootstrap() {
     app.enableCors({
         origin: [
             'http://localhost:3001',
-            'http://192.168.1.18:3001',
+            'http://192.168.1.19:3001',
         ],
         credentials: true,
     });
@@ -32,7 +32,7 @@ async function bootstrap() {
         .setVersion('1.0')
         .addBearerAuth()
         .addTag('Account Offers', 'Manage game account listings')
-        .addTag('Currency Offers', 'Manage in-game currency listings')
+        .addTag('Currency Offers', 'test tạm')
         .addTag('Games', 'Browse available games on GameBoost')
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);

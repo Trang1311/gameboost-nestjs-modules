@@ -15,7 +15,6 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
       envFilePath: '.env',
     }),
     AccountOffersModule,
-    CurrencyOffersModule,
     GamesModule,
   ],
   providers: [

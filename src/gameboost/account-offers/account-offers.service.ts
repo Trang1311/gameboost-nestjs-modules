@@ -11,7 +11,6 @@ import {
 export class AccountOffersService {
   private readonly logger = new Logger(AccountOffersService.name);
   private readonly BASE = '/account-offers';
-
   constructor(private readonly http: GameboostHttpService) {}
 
   async findAll(query: ListAccountOffersQueryDto) {
@@ -107,8 +106,6 @@ export class AccountOffersService {
 
 async bulkUpdatePrice(items: Array<{ external_id: string; price: number }>) {
   this.logger.log(`Bulk updating prices for ${items.length} items`);
-
-  // Chạy song song, giới hạn 5 request cùng lúc để không bị rate limit
   const CONCURRENCY = 5;
   let succeeded = 0;
   let failed = 0;

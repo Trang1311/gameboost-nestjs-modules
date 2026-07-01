@@ -10,6 +10,8 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -18,6 +20,8 @@ import {
   ApiResponse,
   ApiParam,
   ApiQuery,
+  ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { AccountOffersService } from './account-offers.service';
 import {
@@ -26,6 +30,7 @@ import {
   ListAccountOffersQueryDto,
   AccountOfferDto,
 } from './account-offers.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Account Offers')
 @ApiBearerAuth()
@@ -84,16 +89,49 @@ export class AccountOffersController {
   }
 
   // ── POST /account-offers/bulk-update-price ──────────────────────────────
-  @Post('bulk-update-price')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({
-    summary: 'Bulk update prices by external_id',
-    description: 'Update prices for multiple account offers by their external_id. Returns success/failure counts.',
-  })
-  @ApiResponse({ status: 200, description: 'Bulk update result', schema: { example: { succeeded: 5, failed: 1 } } })
-  bulkUpdatePrice(@Body('items') items: Array<{ external_id: string; price: number }>) {
-    return this.service.bulkUpdatePrice(items);
-  }
+@Post('bulk-update-price')
+@HttpCode(HttpStatus.OK)
+@ApiOperation({
+  summary: 'Bulk update prices by external_id',
+  description: 'Upload a CSV file with columns: external_id, price. Returns success/failure counts.',
+})
+@ApiConsumes('multipart/form-data')  // ← bắt buộc để Swagger hiện file picker
+@ApiBody({
+  schema: {
+    type: 'object',
+    required: ['file'],
+    properties: {
+      file: {
+        type: 'string',
+        format: 'binary',  // ← Swagger sẽ render nút "Choose File"
+      },
+    },
+  },
+})
+@ApiResponse({ status: 200, description: 'Bulk update result', schema: { example: { succeeded: 5, failed: 1 } } })
+@UseInterceptors(FileInterceptor('file'))
+async bulkUpdatePrice(@UploadedFile() file: Express.Multer.File) {
+  const content = file.buffer.toString('utf-8');
+  const lines = content
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+
+  const isHeader = lines[0].toLowerCase().includes('external_id');
+  const dataLines = isHeader ? lines.slice(1) : lines;
+
+  const items = dataLines.map(line => {
+    // Split từ cuối để tránh lỗi nếu tên game có dấu phẩy
+    const parts = line.split(',');
+    const price = parseFloat(parts[parts.length - 1].trim());
+    const external_id = parts[parts.length - 2].trim();
+    // parts.slice(0, -2).join(',') = tên game (không cần dùng)
+
+    return { external_id, price };
+  });
+
+  return this.service.bulkUpdatePrice(items);
+}
 
   // ── PATCH /account-offers/:id ────────────────────────────────────────────
   @Patch(':id')

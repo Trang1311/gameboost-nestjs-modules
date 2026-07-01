@@ -17,10 +17,7 @@ export declare class AccountOffersController {
     create(dto: CreateAccountOfferDto): Promise<{
         data: AccountOfferDto;
     }>;
-    bulkUpdatePrice(items: Array<{
-        external_id: string;
-        price: number;
-    }>): Promise<{
+    bulkUpdatePrice(file: Express.Multer.File): Promise<{
         succeeded: number;
         failed: number;
         total: number;
