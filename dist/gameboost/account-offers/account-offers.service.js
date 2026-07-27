@@ -47,7 +47,37 @@ let AccountOffersService = AccountOffersService_1 = class AccountOffersService {
     }
     async create(dto) {
         this.logger.log(`Creating account offer: ${dto.title}`);
-        return this.http.post(`${this.BASE}/create`, dto);
+        const image_urls = Object.values(dto.gallery ?? {}).map((img) => img.original_url);
+        let credentials = [...(dto.credentials ?? [])];
+        if (!dto.is_manual) {
+            if (dto.login && dto.password) {
+                credentials.push(`Login: ${dto.login}\nPassword: ${dto.password}`);
+            }
+            if (dto.email_login && dto.email_password) {
+                credentials.push(`Email: ${dto.email_login}\nPassword: ${dto.email_password}`);
+            }
+        }
+        if (dto.is_manual && credentials.length === 0) {
+            credentials.push('Manual Delivery');
+        }
+        const payload = {
+            game_id: dto.game_id,
+            title: dto.title,
+            slug: dto.slug,
+            description: dto.description,
+            price: dto.price,
+            dump: dto.dump,
+            private_note: dto.private_note,
+            external_id: dto.external_id,
+            delivery_instructions: dto.delivery_instructions,
+            delivery_time: dto.delivery_time,
+            account_data: dto.account_data,
+            game_items: dto.game_items,
+            is_manual: dto.is_manual,
+            image_urls,
+            credentials,
+        };
+        return this.http.post(`${this.BASE}/create`, payload);
     }
     async update(id, dto) {
         this.logger.log(`Updating account offer #${id}`);

@@ -19,7 +19,5 @@ export declare class GameDto {
 }
 export declare class DeliveryTimeDto {
     duration: number;
-    format: string;
-    format_long: string;
-    seconds: number;
+    unit: 'minutes' | 'hours' | 'days';
 }

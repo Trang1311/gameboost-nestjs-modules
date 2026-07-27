@@ -8,22 +8,33 @@ export declare class GameItemsDto {
     skins?: string[];
 }
 export declare class CreateAccountOfferDto {
-    game_id: number;
+    id?: number | null;
     title: string;
+    slug: string;
     description: string;
+    original_price?: number | null;
     price: number;
+    game_id: number;
+    login?: string | null;
+    password?: string | null;
+    email_login?: string | null;
+    email_password?: string | null;
+    email_provider?: string | null;
+    note?: string | null;
+    dump?: string | null;
+    delivery_instructions?: string | null;
+    delivery_time: DeliveryTimeDto;
+    is_manual: boolean;
+    is_featured: boolean;
+    is_rare: boolean;
+    is_discounted: boolean;
+    gallery: Record<string, any>;
+    account_data: Record<string, any>;
+    game_items: Record<string, any>;
+    account_package_id?: number | null;
+    private_note?: string | null;
     credentials: string[];
-    image_urls?: string[];
-    account_data?: Record<string, any>;
-    game?: string;
-    external_id?: string;
-    slug?: string;
-    dump?: string;
-    private_note?: string;
-    is_manual?: boolean;
-    delivery_instructions?: string;
-    delivery_time?: DeliveryTimeInputDto;
-    game_items?: GameItemsDto;
+    external_id?: string | null;
 }
 export declare class UpdateAccountOfferDto {
     title?: string;

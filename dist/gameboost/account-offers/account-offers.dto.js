@@ -55,107 +55,125 @@ class CreateAccountOfferDto {
 }
 exports.CreateAccountOfferDto = CreateAccountOfferDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 1, description: 'GameBoost game ID' }),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], CreateAccountOfferDto.prototype, "game_id", void 0);
+], CreateAccountOfferDto.prototype, "id", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Plat 1 LoL Account 50 Champs', maxLength: 255 }),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MaxLength)(255),
     __metadata("design:type", String)
 ], CreateAccountOfferDto.prototype, "title", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 'Full description of the account...' }),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateAccountOfferDto.prototype, "description", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 10.99, description: 'Price in USD' }),
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Min)(0.01),
-    __metadata("design:type", Number)
-], CreateAccountOfferDto.prototype, "price", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({
-        example: ['Login: myuser\nPassword: mypass123'],
-        description: 'Credentials as array of strings (new format)',
-        type: [String],
-    }),
-    (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.IsString)({ each: true }),
-    __metadata("design:type", Array)
-], CreateAccountOfferDto.prototype, "credentials", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({
-        example: ['https://example.com/image1.jpg'],
-        type: [String],
-    }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.IsUrl)({}, { each: true }),
-    __metadata("design:type", Array)
-], CreateAccountOfferDto.prototype, "image_urls", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ description: 'Game-specific account data (dynamic schema)' }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsObject)(),
-    __metadata("design:type", Object)
-], CreateAccountOfferDto.prototype, "account_data", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'league-of-legends' }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateAccountOfferDto.prototype, "game", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'my-external-id-001' }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateAccountOfferDto.prototype, "external_id", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'my-account-slug' }),
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateAccountOfferDto.prototype, "slug", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ description: 'Account dump / extra info' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "description", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateAccountOfferDto.prototype, "original_price", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateAccountOfferDto.prototype, "price", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateAccountOfferDto.prototype, "game_id", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "login", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "email_login", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "email_password", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "email_provider", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "note", void 0);
+__decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateAccountOfferDto.prototype, "dump", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ description: 'Private seller note (not shown to buyer)' }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreateAccountOfferDto.prototype, "private_note", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: false, description: 'Manual delivery flag' }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Boolean)
-], CreateAccountOfferDto.prototype, "is_manual", void 0);
-__decorate([
-    (0, swagger_1.ApiPropertyOptional)({ example: 'Login with provided credentials' }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateAccountOfferDto.prototype, "delivery_instructions", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ type: () => DeliveryTimeInputDto }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Type)(() => DeliveryTimeInputDto),
-    __metadata("design:type", DeliveryTimeInputDto)
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => common_dto_1.DeliveryTimeDto),
+    __metadata("design:type", common_dto_1.DeliveryTimeDto)
 ], CreateAccountOfferDto.prototype, "delivery_time", void 0);
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ type: () => GameItemsDto }),
-    (0, class_validator_1.IsOptional)(),
-    (0, class_transformer_1.Type)(() => GameItemsDto),
-    __metadata("design:type", GameItemsDto)
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateAccountOfferDto.prototype, "is_manual", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateAccountOfferDto.prototype, "is_featured", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateAccountOfferDto.prototype, "is_rare", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], CreateAccountOfferDto.prototype, "is_discounted", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    __metadata("design:type", Object)
+], CreateAccountOfferDto.prototype, "gallery", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    __metadata("design:type", Object)
+], CreateAccountOfferDto.prototype, "account_data", void 0);
+__decorate([
+    (0, class_validator_1.IsObject)(),
+    __metadata("design:type", Object)
 ], CreateAccountOfferDto.prototype, "game_items", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], CreateAccountOfferDto.prototype, "account_package_id", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "private_note", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    __metadata("design:type", Array)
+], CreateAccountOfferDto.prototype, "credentials", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateAccountOfferDto.prototype, "external_id", void 0);
 class UpdateAccountOfferDto {
 }
 exports.UpdateAccountOfferDto = UpdateAccountOfferDto;

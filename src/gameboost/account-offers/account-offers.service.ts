@@ -57,13 +57,60 @@ export class AccountOffersService {
     return this.http.get<{ data: AccountOfferDto }>(`${this.BASE}/${id}`);
   }
 
-  async create(dto: CreateAccountOfferDto) {
-    this.logger.log(`Creating account offer: ${dto.title}`);
-    return this.http.post<{ data: AccountOfferDto }>(
-      `${this.BASE}/create`,
-      dto,
-    );
+async create(dto: CreateAccountOfferDto) {
+  this.logger.log(`Creating account offer: ${dto.title}`);
+
+  const image_urls = Object.values(dto.gallery ?? {}).map(
+    (img: any) => img.original_url,
+  );
+
+  let credentials = [...(dto.credentials ?? [])];
+
+  // Auto delivery
+  if (!dto.is_manual) {
+    if (dto.login && dto.password) {
+      credentials.push(
+        `Login: ${dto.login}\nPassword: ${dto.password}`,
+      );
+    }
+
+    if (dto.email_login && dto.email_password) {
+      credentials.push(
+        `Email: ${dto.email_login}\nPassword: ${dto.email_password}`,
+      );
+    }
   }
+
+  // Manual delivery
+  if (dto.is_manual && credentials.length === 0) {
+    credentials.push('Manual Delivery');
+  }
+
+  const payload = {
+    game_id: dto.game_id,
+    title: dto.title,
+    slug: dto.slug,
+    description: dto.description,
+    price: dto.price,
+    dump: dto.dump,
+    private_note: dto.private_note,
+    external_id: dto.external_id,
+    delivery_instructions: dto.delivery_instructions,
+    delivery_time: dto.delivery_time,
+    account_data: dto.account_data,
+    game_items: dto.game_items,
+
+    is_manual: dto.is_manual,
+
+    image_urls,
+    credentials,
+  };
+
+  return this.http.post<{ data: AccountOfferDto }>(
+    `${this.BASE}/create`,
+    payload,
+  );
+}
 
   async update(id: number, dto: UpdateAccountOfferDto) {
     this.logger.log(`Updating account offer #${id}`);

@@ -9,6 +9,7 @@ import {
   MaxLength,
   Min,
   IsUrl,
+  ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { GameDto, DeliveryTimeDto } from '../../common/dto/common.dto';
@@ -47,91 +48,98 @@ export class GameItemsDto {
 }
 
 export class CreateAccountOfferDto {
-  @ApiProperty({ example: 1, description: 'GameBoost game ID' })
-  @IsNumber()
-  game_id: number;
+  @IsOptional()
+  id?: number | null;
 
-  @ApiProperty({ example: 'Plat 1 LoL Account 50 Champs', maxLength: 255 })
   @IsString()
-  @MaxLength(255)
   title: string;
 
-  @ApiProperty({ example: 'Full description of the account...' })
+  @IsString()
+  slug: string;
+
   @IsString()
   description: string;
 
-  @ApiProperty({ example: 10.99, description: 'Price in USD' })
+  @IsOptional()
   @IsNumber()
-  @Min(0.01)
+  original_price?: number | null;
+
+  @IsNumber()
   price: number;
 
-  @ApiProperty({
-    example: ['Login: myuser\nPassword: mypass123'],
-    description: 'Credentials as array of strings (new format)',
-    type: [String],
-  })
+  @IsNumber()
+  game_id: number;
+
+  @IsOptional()
+  @IsString()
+  login?: string | null;
+
+  @IsOptional()
+  @IsString()
+  password?: string | null;
+
+  @IsOptional()
+  @IsString()
+  email_login?: string | null;
+
+  @IsOptional()
+  @IsString()
+  email_password?: string | null;
+
+  @IsOptional()
+  @IsString()
+  email_provider?: string | null;
+
+  @IsOptional()
+  @IsString()
+  note?: string | null;
+
+  @IsOptional()
+  @IsString()
+  dump?: string | null;
+
+  @IsOptional()
+  @IsString()
+  delivery_instructions?: string | null;
+
+  @ValidateNested()
+  @Type(() => DeliveryTimeDto)
+  delivery_time: DeliveryTimeDto;
+
+  @IsBoolean()
+  is_manual: boolean;
+
+  @IsBoolean()
+  is_featured: boolean;
+
+  @IsBoolean()
+  is_rare: boolean;
+
+  @IsBoolean()
+  is_discounted: boolean;
+
+  @IsObject()
+  gallery: Record<string, any>;
+
+  @IsObject()
+  account_data: Record<string, any>;
+
+  @IsObject()
+  game_items: Record<string, any>;
+
+  @IsOptional()
+  account_package_id?: number | null;
+
+  @IsOptional()
+  @IsString()
+  private_note?: string | null;
+
   @IsArray()
-  @IsString({ each: true })
   credentials: string[];
 
-  @ApiPropertyOptional({
-    example: ['https://example.com/image1.jpg'],
-    type: [String],
-  })
-  @IsOptional()
-  @IsArray()
-  @IsUrl({}, { each: true })
-  image_urls?: string[];
-
-  @ApiPropertyOptional({ description: 'Game-specific account data (dynamic schema)' })
-  @IsOptional()
-  @IsObject()
-  account_data?: Record<string, any>;
-
-  @ApiPropertyOptional({ example: 'league-of-legends' })
   @IsOptional()
   @IsString()
-  game?: string;
-
-  @ApiPropertyOptional({ example: 'my-external-id-001' })
-  @IsOptional()
-  @IsString()
-  external_id?: string;
-
-  @ApiPropertyOptional({ example: 'my-account-slug' })
-  @IsOptional()
-  @IsString()
-  slug?: string;
-
-  @ApiPropertyOptional({ description: 'Account dump / extra info' })
-  @IsOptional()
-  @IsString()
-  dump?: string;
-
-  @ApiPropertyOptional({ description: 'Private seller note (not shown to buyer)' })
-  @IsOptional()
-  @IsString()
-  private_note?: string;
-
-  @ApiPropertyOptional({ example: false, description: 'Manual delivery flag' })
-  @IsOptional()
-  @IsBoolean()
-  is_manual?: boolean;
-
-  @ApiPropertyOptional({ example: 'Login with provided credentials' })
-  @IsOptional()
-  @IsString()
-  delivery_instructions?: string;
-
-  @ApiPropertyOptional({ type: () => DeliveryTimeInputDto })
-  @IsOptional()
-  @Type(() => DeliveryTimeInputDto)
-  delivery_time?: DeliveryTimeInputDto;
-
-  @ApiPropertyOptional({ type: () => GameItemsDto })
-  @IsOptional()
-  @Type(() => GameItemsDto)
-  game_items?: GameItemsDto;
+  external_id?: string | null;
 }
 
 export class UpdateAccountOfferDto {
@@ -269,3 +277,4 @@ export class AccountOfferDto {
   @ApiPropertyOptional()
   listed_at?: number;
 }
+

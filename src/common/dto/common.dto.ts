@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsIn, IsInt, Min } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class PaginationMetaDto {
   @ApiProperty({ example: 1 })
@@ -46,15 +48,11 @@ export class GameDto {
 }
 
 export class DeliveryTimeDto {
-  @ApiProperty({ example: 10 })
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
   duration: number;
 
-  @ApiProperty({ example: '10 hours' })
-  format: string;
-
-  @ApiProperty({ example: '10 hours delivery' })
-  format_long: string;
-
-  @ApiProperty({ example: 36000 })
-  seconds: number;
+  @IsIn(['minutes', 'hours', 'days'])
+  unit: 'minutes' | 'hours' | 'days';
 }

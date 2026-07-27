@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DeliveryTimeDto = exports.GameDto = exports.PaginationLinksDto = exports.PaginationMetaDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
 class PaginationMetaDto {
 }
 exports.PaginationMetaDto = PaginationMetaDto;
@@ -76,19 +78,13 @@ class DeliveryTimeDto {
 }
 exports.DeliveryTimeDto = DeliveryTimeDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: 10 }),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
     __metadata("design:type", Number)
 ], DeliveryTimeDto.prototype, "duration", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ example: '10 hours' }),
+    (0, class_validator_1.IsIn)(['minutes', 'hours', 'days']),
     __metadata("design:type", String)
-], DeliveryTimeDto.prototype, "format", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: '10 hours delivery' }),
-    __metadata("design:type", String)
-], DeliveryTimeDto.prototype, "format_long", void 0);
-__decorate([
-    (0, swagger_1.ApiProperty)({ example: 36000 }),
-    __metadata("design:type", Number)
-], DeliveryTimeDto.prototype, "seconds", void 0);
+], DeliveryTimeDto.prototype, "unit", void 0);
 //# sourceMappingURL=common.dto.js.map
